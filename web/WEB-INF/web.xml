@@ -1,0 +1,13 @@
+<servlet>
+    <servlet-name>timeWorker</servlet-name>
+    <servlet-class>ru.javarush.tomcat.TimeWorker</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>timeWorker</servlet-name>
+<url-pattern>/time</url-pattern>
+</servlet-mapping>
+
+<welcome-file-list>
+<welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
