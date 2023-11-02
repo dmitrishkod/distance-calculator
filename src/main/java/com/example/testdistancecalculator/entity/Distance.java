@@ -17,12 +17,15 @@ public class Distance {
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "from_city", referencedColumnName = "id")
     private City fromCity;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "to_city", referencedColumnName = "id")
     private City toCity;
+
     @Column(name = "distance")
     private Double distance;
 }

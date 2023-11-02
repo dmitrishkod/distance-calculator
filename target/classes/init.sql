@@ -27,12 +27,13 @@ CREATE TABLE IF NOT EXISTS distance (
                                             ON DELETE set null
 );
 
-insert into city(name,longtitude,latitude) values('SMR',324,365);
-insert into city(name,longtitude,latitude) values('MSK',134,246);
-insert into city(name,longtitude,latitude) values('OMSK',6867,345);
-insert into city(name,longtitude,latitude) values('TLT',124,365);
-insert into city(name,longtitude,latitude) values('SPB',127,721);
+insert into city(name,longtitude,latitude) values('Samara',324,365);
+insert into city(name,longtitude,latitude) values('Moscow',134,246);
+insert into city(name,longtitude,latitude) values('Omsk',6867,345);
+insert into city(name,longtitude,latitude) values('Tolyatti',124,365);
+insert into city(name,longtitude,latitude) values('Saint Petersburg',127,721);
+insert into city(name,longtitude,latitude) values('Sochi',127,721);
 
-insert into distance(from_city,to_city,distance) values(1,2,6453);
-insert into distance(from_city,to_city,distance) values(2,3,3453);
-insert into distance(from_city,to_city,distance) values(4,5,2343);
+insert into distance(from_city,to_city,distance) values(1,4,6453);
+insert into distance(from_city,to_city,distance) values(2,5,3453);
+insert into distance(from_city,to_city,distance) values(3,6,2343);

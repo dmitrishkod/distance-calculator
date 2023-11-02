@@ -27,14 +27,16 @@ public class DistanceService {
      * @param city2
      * @return результат расчета прямого расстояния
      */
-    private Double сrowflight(City city1, City city2){
+    private String сrowflight(City city1, City city2){
         double longtitude1 = city1.getLongtitude()*Math.PI/180;
         double longtitude2 = city2.getLongtitude()*Math.PI/180;
         double latitude1 = city1.getLatitude()*Math.PI/180;
         double latitude2 = city2.getLatitude()*Math.PI/180;
 
-       return earthRadius * (Math.acos(Math.sin(latitude1)*Math.sin(latitude2)
+        double d = earthRadius * (Math.acos(Math.sin(latitude1)*Math.sin(latitude2)
                 + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longtitude2 - longtitude1)));
+
+       return CalcType.CROWFLIGHT.name() + " Расстояние между городами " + city1.getName() + " и " + city2.getName() + " равно " + d + "\n";
     }
 
     /**
@@ -43,26 +45,18 @@ public class DistanceService {
      * @param city2
      * @return возвращает дистанцию между городами
      */
-    private Double distanceMatrix(City city1, City city2){
+    private String distanceMatrix(City city1, City city2){
         Optional<Distance> distanceR = distanceRepository.findByFromCityAndAndToCity(city1,city2);
-        return distanceR.isPresent() ?
-                distanceR.get().getDistance()
-                : null;
-    }
-
-    /**
-     * Возвращает расчет дистанции Crowflight, Distance Matrix
-     * @param city1
-     * @param city2
-     * @return Возвращает список из двух дистанций
-     */
-    private List<Double> allDistance(City city1, City city2){
-        double сrowflight = сrowflight(city1,city2);
-        double distanceMatrix = distanceMatrix(city1,city2);
-        List<Double> all = new ArrayList<>();
-        all.add(сrowflight);
-        all.add(distanceMatrix);
-        return all;
+        Optional<Distance> distance = distanceRepository.findByFromCityAndAndToCity(city2,city1);
+        if (distanceR.isPresent()){
+            double d = distanceR.get().getDistance();
+            return  CalcType.DISTANCE_MATRIX.name() + " Расстояние между городами " + city1.getName() + " и " + city2.getName() + " равно " + d + "\n";
+        } else if (distance.isPresent()){
+            double d = distance.get().getDistance();
+            return  CalcType.DISTANCE_MATRIX.name() + " Расстояние между городами " + city1.getName() + " и " + city2.getName() + " равно " + d + "\n";
+        } else {
+            return CalcType.DISTANCE_MATRIX.name() +  " Расстояние между городами " + city1.getName() + " и " + city2.getName() + " не существует в базе \n";
+        }
     }
 
     /**
@@ -72,8 +66,8 @@ public class DistanceService {
      * @param calcType Enum - выбор между Crowflihgt и Distance Matrix для пользователя
      * @return Возвращает выбранную калькуляцию
      */
-    private Double calculateDistance (City city1, City city2, CalcType calcType){
-        double result = 0;
+    private String calculateDistance (City city1, City city2, CalcType calcType){
+        String result = "";
         if (calcType == CalcType.CROWFLIGHT){
             result = сrowflight(city1,city2);
             return result;
@@ -86,28 +80,28 @@ public class DistanceService {
     }
 
     /**
-     * Расчитывает дистанцию между городами на выбор <Crowflight, Distance Matrix, All>
+     * Расчитывает дистанцию между городами любого типа
      * @param firstCityGroup
      * @param secondCityGroup
      * @param calcType
      * @return Возвращает список результатов
      */
-    public List<Double> calculateDistances(List<City> firstCityGroup, List<City> secondCityGroup, CalcType calcType){
-        List<Double> calculateResult = new ArrayList<>();
-        for (int i = 0; i < firstCityGroup.size(); i ++) {
-            City city1 = firstCityGroup.get(i);
-            City city2 = secondCityGroup.get(i);
-            switch (calcType){
-                case CROWFLIGHT:
-                case DISTANCE_MATRIX:
-                    Double result = calculateDistance(city1,city2,calcType);
-                    calculateResult.add(result);
-                    break;
-                case ALL:
-                    calculateResult = allDistance(city1,city2);
-                    break;
+    public String calculateDistances(List<City> firstCityGroup, List<City> secondCityGroup, CalcType calcType){
+        StringBuilder builder = new StringBuilder();
+        if (calcType == CalcType.ALL){
+            for (City city: firstCityGroup) {
+                for (City city1: secondCityGroup) {
+                    builder.append(distanceMatrix(city,city1));
+                    builder.append(сrowflight(city, city1));
+                }
+            }
+        }else {
+            for (City city: firstCityGroup) {
+                for (City city1: secondCityGroup) {
+                    builder.append(calculateDistance(city, city1, calcType));
+                }
             }
         }
-        return calculateResult;
+        return builder.toString();
     }
 }

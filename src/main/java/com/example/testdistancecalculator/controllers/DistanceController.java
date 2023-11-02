@@ -1,5 +1,6 @@
 package com.example.testdistancecalculator.controllers;
 
+import com.example.testdistancecalculator.entity.models.DistanceTypeModel;
 import com.example.testdistancecalculator.enums.CalcType;
 import com.example.testdistancecalculator.entity.City;
 import com.example.testdistancecalculator.entity.Distance;
@@ -22,15 +23,13 @@ public class DistanceController {
 
     /**
      * Задание 2. Поиск по любому из представленных расстояний между городами
-     * @param firstCityGroup
-     * @param secondCityGroup
-     * @param calcType
+     * @param distanceTypeModel (упаковал в модельку, чтобы можно было например передать с фронта нормально пост)
      * @return
      */
     @PostMapping(path = "/calculate", produces = "application/json")
-    public ResponseEntity <List<Double>> calculateDistances(List<City> firstCityGroup, List<City> secondCityGroup, CalcType calcType){ //TODO: Класс с этими значениями
+    public ResponseEntity <String> calculateDistances(DistanceTypeModel distanceTypeModel){
         try {
-            return ResponseEntity.ok(distanceService.calculateDistances(firstCityGroup,secondCityGroup,calcType));
+            return ResponseEntity.ok(distanceService.calculateDistances(distanceTypeModel.getFirstCityGroup(),distanceTypeModel.getSecondCityGroup(),distanceTypeModel.getCalcType()));
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

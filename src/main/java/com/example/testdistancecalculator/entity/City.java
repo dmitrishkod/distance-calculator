@@ -10,17 +10,21 @@ import javax.persistence.*;
 @Builder
 @EqualsAndHashCode
 @ToString
+
 @Entity
 @Table(name ="city")
 public class City {
     @Id
-    @GeneratedValue
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "latitude")
     private Double latitude;
+
     @Column(name = "longtitude")
     private Double longtitude;
 }
