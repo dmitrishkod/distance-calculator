@@ -58,10 +58,10 @@ JEE 8 + WildFly 14 (для реализации API использовать JAX
 
 SpringBoot + Tomcat 
 
-##Requirements 
+## Requirements 
 - Use Java exceptions to indicate that distance cannot be calculated (for example, it is not in the distance table). 
 - Make sure you are up to speed on the following Java basics: interfaces, classes, inheritance, overriding, collections. 
 
-##Optional Requirements 
+## Optional Requirements 
 The following requirements are optional. Please work on them if you have capacity (after you submitted result of your assignment back to us): 
 - Test if your application would scale to 10.000 cities and 1.000.000 entries in distance table (assume that distance is defined only for some cities in the distance matrix). Test if XML file of this size can be loaded fine. Fix scale/performance issues if they would appear.  
