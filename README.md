@@ -8,7 +8,7 @@
 ## Installation
 Install from Github 
 ```Java
-install https://github.com/dmitrishkod/test-distance-calculator/archive/refs/heads/master.zip
+install https://github.com/dmitrishkod/distance-calculator/archive/refs/heads/main.zip
 ```
 ## Overview
 Design and implement web service (REST) application for distance calculation:
@@ -50,3 +50,18 @@ Design and implement web service (REST) application for distance calculation:
 >- Java 8 (можно использовать более свежие версии)
 >- JAXB или Jackson ObjectMapper
 >- Hibernate
+
+
+Выбрать одно из двух:
+
+JEE 8 + WildFly 14 (для реализации API использовать JAX-RS)
+
+SpringBoot + Tomcat 
+
+##Requirements 
+- Use Java exceptions to indicate that distance cannot be calculated (for example, it is not in the distance table). 
+- Make sure you are up to speed on the following Java basics: interfaces, classes, inheritance, overriding, collections. 
+
+##Optional Requirements 
+The following requirements are optional. Please work on them if you have capacity (after you submitted result of your assignment back to us): 
+- Test if your application would scale to 10.000 cities and 1.000.000 entries in distance table (assume that distance is defined only for some cities in the distance matrix). Test if XML file of this size can be loaded fine. Fix scale/performance issues if they would appear.  
